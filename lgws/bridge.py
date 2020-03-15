@@ -1,6 +1,6 @@
 from gmqtt import Client as MQTTClient
 from .lgws import Client as LGClient
-import asyncio, logging
+import asyncio, logging, threading, time, datetime
 
 try:
     import uvloop
@@ -47,5 +47,13 @@ async def main(broker_host, token):
     lg.ac.subscribe_get_current(on_app_changed)        
     lg.mc.subscribe_get_volume(on_volume_changed)
     
+    # Periodic heartbeat from the bridge
+    def heartbeat():
+        while True:
+            client.publish(f"{BASETOPIC}/heartbeat/{client._client_id}", str(datetime.datetime.now()))
+            time.sleep(1)
+
+    threading.Thread(target = heartbeat, daemon=True).start()
+
     await stopEvent.wait()
     await client.disconnect()
