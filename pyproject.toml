@@ -1,0 +1,14 @@
+[build-system]
+requires = ["flit_core >=2,<3"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "lgws"
+author = "Joseph Piron"
+author-email = "joseph.piron@gmail.com"
+home-page = "https://github.com/eagleamon/lgws.git"
+requires = ['pywebostv', 'wakeonlan', 'click', 'gmqtt']
+classifiers = ["License :: OSI Approved :: MIT License"]
+
+[tool.flit.scripts]
+lg= "lgws.cli:cli"
