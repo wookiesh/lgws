@@ -10,10 +10,9 @@ black = "*"
 pywebostv = "*"
 click = "*"
 gmqtt = "*"
-uvloop = "*"
 wakeonlan = "*"
-coloraama = "*"
 colorama = "*"
+pynput = "*"
 
 [requires]
 python_version = "3.8"
