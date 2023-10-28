@@ -1,5 +1,12 @@
 # webos_app
 
+## Update all packages to last version
+
+```
+npx npm-check-updates -u
+npm install
+```
+
 ## Project setup
 
 ```
