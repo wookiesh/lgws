@@ -1,4 +1,5 @@
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 from .bridge import main, stopEvent
@@ -12,7 +13,7 @@ try:
 except NotImplementedError:
     pass  # Ignore if not implemented. Means this program is running in windows.
 
-try: 
-    loop.run_until_complete(main('test.mosquitto.org', None))
+try:
+    loop.run_until_complete(main("test.mosquitto.org", None))
 except KeyboardInterrupt:
     pass

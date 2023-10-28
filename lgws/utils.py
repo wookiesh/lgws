@@ -17,12 +17,12 @@ class AliasedGroup(click.Group):
 
 
 KEYMAP = {
-    'esc': ('ic', 'exit'),
-    'enter': ('ic', 'enter'),
-    'backspace': ('ic', 'back'),
-    '=': ('ic', 'volume_up'),
-    '-': ('ic', 'volume_down'),
-    'i': ('ic', 'info'),
-    'h': ('ic', 'home'),
-    'm': ('mc', 'mute'),
+    "esc": ("ic", "exit"),
+    "enter": ("ic", "enter"),
+    "backspace": ("ic", "back"),
+    "=": ("ic", "volume_up"),
+    "-": ("ic", "volume_down"),
+    "i": ("ic", "info"),
+    "h": ("ic", "home"),
+    "m": ("mc", "mute"),
 }

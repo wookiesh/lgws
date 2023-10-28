@@ -4,6 +4,7 @@ import asyncio, logging, threading, time, datetime
 
 try:
     import uvloop
+
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 except:
     logging.warning("Cannot set uvloop as asyncio event loop")
@@ -13,17 +14,23 @@ stopEvent = asyncio.Event()
 
 BASETOPIC = "lgtv"
 
+
 def on_connect(client, flags, rc, properties):
-    client.subscribe(BASETOPIC+'/#', qos=0)
+    client.subscribe(BASETOPIC + "/#", qos=0)
+
 
 def on_message(client, topic, payload, qos, properties):
     pass
 
+
 def on_disconnect(client, packet, exc=None):
-    if exc: log.exception(exc)
+    if exc:
+        log.exception(exc)
+
 
 def on_subscribe(client, mid, qos, properties):
-    log.debug('subscribtion successfull')
+    log.debug("subscribtion successfull")
+
 
 async def main(broker_host, token):
     client = MQTTClient(__name__)
@@ -31,10 +38,10 @@ async def main(broker_host, token):
     client.on_disconnect = on_disconnect
     client.on_message = on_message
     client.on_subscribe = on_subscribe
-    
+
     if token:
         client.set_auth_credentials(token)
-    log.debug(f'Connecting to {broker_host}')
+    log.debug(f"Connecting to {broker_host}")
     await client.connect(broker_host)
 
     def on_app_changed(status, payload):
@@ -44,16 +51,19 @@ async def main(broker_host, token):
         client.publish(BASETOPIC + "/volume", payload)
 
     lg = LGClient()
-    lg.ac.subscribe_get_current(on_app_changed)        
+    lg.ac.subscribe_get_current(on_app_changed)
     lg.mc.subscribe_get_volume(on_volume_changed)
-    
+
     # Periodic heartbeat from the bridge
     def heartbeat():
         while True:
-            client.publish(f"{BASETOPIC}/heartbeat/{client._client_id}", str(datetime.datetime.now()))
+            client.publish(
+                f"{BASETOPIC}/heartbeat/{client._client_id}",
+                str(datetime.datetime.now()),
+            )
             time.sleep(1)
 
-    threading.Thread(target = heartbeat, daemon=True).start()
+    threading.Thread(target=heartbeat, daemon=True).start()
 
     await stopEvent.wait()
     await client.disconnect()

@@ -9,7 +9,7 @@ import click
 def cli(debug):
     """
     Get a hold of your LG WebOS Tv from the magical Cli
-    
+
     \b
     Commands may be shortened for convenience:
         - l for listen
@@ -27,10 +27,12 @@ def register():
     "Request pairing with the TV"
     click.echo("Not yet..")
 
+
 @cli.command()
 def discover():
     "Discover existing smart TV on the LAN and create config file"
     click.echo("Not yet..")
+
 
 @cli.command()
 def on(broadcast="192.168.1.255"):
@@ -109,27 +111,29 @@ def send(key):
         getattr(c.ic, key)()
         c.ic.disconnect_input()
 
+
 @cli.command()
 def listen():
     "Listen for inputs and forward them to the TV (CTRL-C to exit)"
 
     try:
         from pynput.mouse import Listener as MListener
-        c= Client()
+
+        c = Client()
         c.ic.connect_input()
         c.last_x = c.last_y = None
 
         def on_move(x, y):
-            if c.last_x == None:
+            if c.last_x is None:
                 c.last_x, c.last_y = x, y
-            else:                                 
-                c.ic.move(x-c.last_x,y-c.last_y)
+            else:
+                c.ic.move(x - c.last_x, y - c.last_y)
                 c.last_x, c.last_y = x, y
                 # print('Pointer moved to {0}'.format((x, y)))
 
         def on_click(x, y, button, pressed):
             c.ic.click()
-                
+
         def on_scroll(x, y, dx, dy):
             print(f"Scrolled {'down' if dy < 0 else 'up'} at {(x,y)}")
 
@@ -138,9 +142,9 @@ def listen():
 
         while True:
             inp = click.getchar()
-            mapped = KEYMAP.get(inp)            
+            mapped = KEYMAP.get(inp)
             if not mapped:
-                click.echo(f"Don't know what to do with '{inp}'", err=True)            
+                click.echo(f"Don't know what to do with '{inp}'", err=True)
             else:
                 getattr(getattr(c, mapped[0]), mapped[1])()
     except KeyboardInterrupt:

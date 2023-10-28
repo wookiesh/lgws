@@ -1,15 +1,35 @@
+[tool.poetry]
+name = "lgws"
+version = "0.4.0"
+description = "a wrapper around pywebostv to use in a handy cli"
+authors = ["Joseph Piron <joseph.piron@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Framework :: Flask",
+    "Intended Audience :: End Users/Desktop",
+    "Programming Language :: Python",
+    "Topic :: Terminals",
+    "Topic :: Utilities",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pywebostv = "^0.8.9"
+click = "^8.1.7"
+gmqtt = "^0.6.12"
+wakeonlan = "^3.0.0"
+colorama = "^0.4.6"
+# pyinput = "^0.3.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.1"
+
 [build-system]
-requires = ["flit_core >=2,<3"]
-build-backend = "flit_core.buildapi"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.flit.metadata]
-module = "lgws"
-author = "Joseph Piron"
-author-email = "joseph.piron@gmail.com"
-home-page = "https://github.com/eagleamon/lgws.git"
-requires = ['pywebostv', 'wakeonlan', 'click', 'gmqtt']
-classifiers = ["License :: OSI Approved :: MIT License", "Framework :: Flask", "Intended Audience :: End Users/Desktop", "Programming Language :: Python", "Topic :: Terminals",
-    "Topic :: Utilities"]
-
-[tool.flit.scripts]
-lg= "lgws.cli:cli"
+[tool.poetry.scripts]
+lg = "lgws.cli:cli"
